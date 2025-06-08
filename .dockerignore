@@ -1,0 +1,27 @@
+node_modules
+npm-debug.log
+Dockerfile
+.git
+.gitignore
+.env
+logs/
+dist/
+# If there are other build artifacts or local config files, add them here
+# e.g., coverage/
+# e.g., .vscode/
+# e.g., specific IDE files
+# The Dockerfile itself if it's in the root, but here it's in docker/
+# So, no need to add Dockerfile here if it's in a subdirectory and context is root.
+# However, if context is '.', and Dockerfile is also '.', then Dockerfile should be ignored.
+# Given the docker-compose context is '..', and Dockerfile is 'docker/Dockerfile',
+# this .dockerignore is in '..' (project root), so it's fine.
+README.md # Example: if you don't need README in the image
+config/ # If config files are exclusively managed by env vars or volumes in Docker
+# but some base configs might be needed. For now, let's assume they are part of src or copied explicitly.
+# The current setup has config files in `config/` at root, not `src/config`.
+# Let's assume `config/` contains files needed for the build or runtime that are not environment specific.
+# If `config` dir IS environment specific, it should be ignored, and settings passed via env vars.
+# For now, let's keep it simple and not ignore the `config` directory yet.
+# If `docker-compose.yml` uses `env_file: ../.env`, then `.env` must not be ignored if that `.env` is intended for the build *context*
+# However, `.env` usually contains secrets and is for local dev, not for building into an image. It's correctly in .dockerignore.
+# Secrets for Docker should be passed via Docker Compose `environment` or Docker secrets.

@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .. # Project root directory (where package.json, src, etc. are)
+      dockerfile: docker/Dockerfile # Path to the Dockerfile
+    ports:
+      - "${APP_PORT:-3000}:${PORT:-3000}" # Host port:Container port (container port from Dockerfile ENV PORT)
+    env_file:
+      - ../.env # Load environment variables from .env file in the project root
+    environment:
+      # Override or define additional environment variables here if needed
+      # NODE_ENV is often set to 'development' for local compose, but can be 'production'
+      NODE_ENV: ${NODE_ENV:-development}
+      # Ensure REDIS_HOST points to the Redis service name in this docker-compose file
+      REDIS_HOST: redis
+      REDIS_PORT: ${REDIS_PORT:-6379}
+      # PORT must match the EXPOSE and CMD in Dockerfile if not overridden by CMD here
+      # It's already set in Dockerfile, but can be confirmed or overridden here.
+      # PORT: ${PORT:-3000} # This is set by .env or defaults here, passed to container
+      # JWT_SECRET, CORS_ALLOWED_ORIGINS, etc., should be in your .env file
+    volumes:
+      # For development with hot-reloading using ts-node-dev or nodemon:
+      # - ../src:/usr/src/app/src
+      # - ../config:/usr/src/app/config
+      # - ../tsconfig.json:/usr/src/app/tsconfig.json
+      # The above mounts are for a dev setup where you run TSC or ts-node-dev in the container.
+      # For the current Dockerfile which builds 'dist', these source mounts are not needed for production.
+      # If you want to reflect local code changes immediately WITHOUT rebuilding image (dev only):
+      # You would change the CMD to 'npm run dev' and mount volumes.
+      # For a production-like test of the built image, no volumes for code are needed.
+      - ../logs:/usr/src/app/logs # Mount logs directory to persist logs locally
+    depends_on:
+      - redis
+    # command: npm run dev # Uncomment and use if you want to run in development mode with hot-reloading
+    # The default CMD from Dockerfile ("npm start") will be used if 'command' is not specified here.
+
+  redis:
+    image: redis:7-alpine # Using a specific version of Redis Alpine for smaller size
+    ports:
+      # Map Redis port only if you need to access it directly from the host machine (e.g., for debugging)
+      # Otherwise, it's accessible to the 'app' service via its service name 'redis' on port 6379.
+      - "${REDIS_HOST_PORT:-6379}:6379"
+    volumes:
+      - redis-data:/data # Persist Redis data across container restarts
+    # command: redis-server --appendonly yes # Example: if you need to pass specific redis commands
+
+volumes:
+  redis-data: # Defines the named volume for Redis data persistence
+    driver: local # Default, can be omitted. Specifies that this volume is managed by Docker.
