@@ -9,7 +9,7 @@ interface RequestSchemas {
 }
 
 export const validateRequest = (schemas: RequestSchemas) => {
-  return async (req: Request, res: Response, next: NextFunction) => {
+  return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const validationErrors: Joi.ValidationErrorItem[] = [];
 
     // Validate body
@@ -39,10 +39,11 @@ export const validateRequest = (schemas: RequestSchemas) => {
     if (validationErrors.length > 0) {
       const errorMessages = validationErrors.map(d => d.message);
       logger.warn(`Validation Error for ${req.method} ${req.originalUrl}: ${errorMessages.join(', ')}`);
-      return res.status(400).json({
+      res.status(400).json({
         message: 'Validation failed',
         errors: errorMessages,
       });
+      return;
     }
 
     next();

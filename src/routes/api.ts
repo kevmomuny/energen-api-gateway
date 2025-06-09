@@ -11,7 +11,7 @@ const router = Router();
 // Apply JWT authentication to all /api/v1 routes
 router.use('/api/v1', authenticateJWT);
 
-router.use('/api/v1', (req: Request, res: Response, next: NextFunction) => {
+router.use('/api/v1', (req: Request, res: Response, next: NextFunction): void => {
   const targetConfig = routingService.getTargetService(req.originalUrl); // Use originalUrl to match prefix correctly
 
   if (targetConfig) {
@@ -45,7 +45,7 @@ router.use('/api/v1', (req: Request, res: Response, next: NextFunction) => {
           // The requestLogger middleware already logs outgoing responses including status code.
           // This log provides more specific proxy context.
           const expressReq = req as Request;
-          logger.http(`Received proxy response: ${proxyRes.statusCode} for ${expressReq.originalUrl} from ${targetConfig.targetServiceBaseUrl}${(proxyRes.req as any).path}`);
+          logger.http(`Received proxy response: ${proxyRes.statusCode} for ${expressReq.originalUrl} from ${targetConfig.targetServiceBaseUrl}`);
           // You can modify the response here if needed
         },
         error: (err: Error, req: http.IncomingMessage, _res: http.ServerResponse | Socket) => {
@@ -70,12 +70,14 @@ router.use('/api/v1', (req: Request, res: Response, next: NextFunction) => {
       }
     }; // Semicolon moved here
 
-    return createProxyMiddleware(proxyOptions)(req, res, next);
+    createProxyMiddleware(proxyOptions)(req, res, next);
+    return;
   } else {
     // If no target service is found for /api/v1/*, return 404
     // This case should ideally not be hit if all /api/v1/* are defined or have a default handler
     if (req.path.startsWith('/api/v1')) {
-        return res.status(404).json({ message: 'API route not found or not configured for proxying.' });
+        res.status(404).json({ message: 'API route not found or not configured for proxying.' });
+        return;
     }
     // If the path is not under /api/v1, let other handlers (if any) take care of it.
     next();

@@ -11,7 +11,7 @@ const users = [
 ];
 
 // Apply validation middleware before the route handler
-router.post('/login', validateRequest({ body: loginRequestBodySchema }), (req: Request, res: Response) => {
+router.post('/login', validateRequest({ body: loginRequestBodySchema }), (req: Request, res: Response): void => {
   // If validation passes, req.body is guaranteed to have username and password
   const { username, password } = req.body;
 
@@ -26,9 +26,11 @@ router.post('/login', validateRequest({ body: loginRequestBodySchema }), (req: R
     // In a real app, you would not include the password in the payload
     const userPayload = { id: user.id, username: user.username };
     const token = authService.generateToken(userPayload);
-    res.json({ token }); return;
+    res.json({ token });
+    return;
   } else {
-    return res.status(401).json({ message: 'Invalid credentials.' });
+    res.status(401).json({ message: 'Invalid credentials.' });
+    return;
   }
 });
 

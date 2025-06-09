@@ -1,14 +1,15 @@
 import { Request, Response, NextFunction } from 'express';
 import authService from '../services/authService';
 
-export const authenticateJWT = async (req: Request, res: Response, next: NextFunction) => {
+export const authenticateJWT = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   const authHeader = req.headers.authorization;
 
   if (authHeader) {
     const token = authHeader.split(' ')[1]; // Bearer <token>
 
     if (!token) {
-      return res.status(401).json({ message: 'Access token is missing or invalid.' });
+      res.status(401).json({ message: 'Access token is missing or invalid.' });
+      return;
     }
 
     try {
@@ -18,12 +19,15 @@ export const authenticateJWT = async (req: Request, res: Response, next: NextFun
         req.user = userPayload;
         next();
       } else {
-        return res.status(403).json({ message: 'Invalid token.' });
+        res.status(403).json({ message: 'Invalid token.' });
+        return;
       }
     } catch (error) {
-      return res.status(403).json({ message: 'Token verification failed.', error });
+      res.status(403).json({ message: 'Token verification failed.', error });
+      return;
     }
   } else {
-    return res.status(401).json({ message: 'Authorization header is missing.' });
+    res.status(401).json({ message: 'Authorization header is missing.' });
+    return;
   }
 };
