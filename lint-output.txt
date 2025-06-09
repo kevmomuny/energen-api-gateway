@@ -1,0 +1,30 @@
+
+> app@1.0.0 lint
+> eslint . --ext .ts
+
+
+/app/src/middleware/logging.ts
+  23:14  error  'e' is defined but never used  @typescript-eslint/no-unused-vars
+
+/app/src/middleware/rateLimit.ts
+  19:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  35:15  error    'res' is defined but never used           @typescript-eslint/no-unused-vars
+
+/app/src/middleware/security.ts
+  3:10  error  'Request' is defined but never used  @typescript-eslint/no-unused-vars
+
+/app/src/routes/api.ts
+  19:27  error  '_req' is defined but never used  @typescript-eslint/no-unused-vars
+  29:35  error  'res' is defined but never used   @typescript-eslint/no-unused-vars
+  40:35  error  'res' is defined but never used   @typescript-eslint/no-unused-vars
+
+/app/src/routes/health.ts
+  19:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/app/src/services/authService.ts
+  16:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/app/src/types/express.d.ts
+  3:12  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+✖ 10 problems (6 errors, 4 warnings)

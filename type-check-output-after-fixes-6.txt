@@ -1,0 +1,11 @@
+
+> app@1.0.0 type-check
+> tsc --noEmit
+
+src/routes/api.ts(75,5): error TS1005: ',' expected.
+src/routes/api.ts(78,12): error TS1005: ',' expected.
+src/routes/api.ts(78,39): error TS1005: ',' expected.
+src/routes/api.ts(78,41): error TS1005: ';' expected.
+src/routes/api.ts(83,3): error TS1128: Declaration or statement expected.
+src/routes/api.ts(84,1): error TS1128: Declaration or statement expected.
+src/routes/api.ts(84,2): error TS1128: Declaration or statement expected.

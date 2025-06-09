@@ -20,7 +20,8 @@ export const requestLogger = (req: Request, res: Response, next: NextFunction) =
     // Avoid logging sensitive info in production request bodies unless specifically configured
     try {
         logger.debug(`Request Body: ${JSON.stringify(req.body)}`);
-    } catch (e) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (_e) {
         logger.warn('Could not stringify request body for logging.');
     }
   }

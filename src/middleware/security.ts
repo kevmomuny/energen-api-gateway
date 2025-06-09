@@ -1,6 +1,5 @@
 import helmet from 'helmet';
 import cors from 'cors';
-import { Request } from 'express';
 
 // Helmet middleware for security headers
 export const securityHeaders = () => helmet();

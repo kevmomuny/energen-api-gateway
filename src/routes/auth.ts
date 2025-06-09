@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import authService from '../services/authService';
 import { validateRequest } from '../middleware/validation';
-import { loginSchema } from '../validations/authSchemas';
+import { loginSchema as loginRequestBodySchema } from '../validations/authSchemas';
 
 const router = Router();
 
@@ -11,7 +11,7 @@ const users = [
 ];
 
 // Apply validation middleware before the route handler
-router.post('/login', validateRequest(loginSchema), (req: Request, res: Response) => {
+router.post('/login', validateRequest({ body: loginRequestBodySchema }), (req: Request, res: Response) => {
   // If validation passes, req.body is guaranteed to have username and password
   const { username, password } = req.body;
 
@@ -26,7 +26,7 @@ router.post('/login', validateRequest(loginSchema), (req: Request, res: Response
     // In a real app, you would not include the password in the payload
     const userPayload = { id: user.id, username: user.username };
     const token = authService.generateToken(userPayload);
-    return res.json({ token });
+    res.json({ token }); return;
   } else {
     return res.status(401).json({ message: 'Invalid credentials.' });
   }

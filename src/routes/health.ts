@@ -16,8 +16,8 @@ router.get('/health', async (req: Request, res: Response) => {
       throw new Error('Redis PING command did not return PONG.');
     }
     logger.debug('Health check: Redis PING successful.');
-  } catch (error: any) {
-    logger.error(`Health check: Redis connection error - ${error.message}`);
+  } catch (error: unknown) {
+    logger.error(`Health check: Redis connection error - ${error instanceof Error ? error.message : String(error)}`);
     redisStatus = 'DOWN';
     apiStatus = 'DEGRADED'; // Or 'DOWN' if Redis is absolutely critical for basic operation
     httpStatusCode = 503; // Service Unavailable

@@ -13,7 +13,7 @@ if (!redisService || !redisService.client || typeof redisService.client.call !==
   skipRateLimiting = true;
 } else {
   store = new RedisStore({
-    // @ts-expect-error - ioredis `call` is compatible enough.
+
     sendCommand: (...args: string[]) => {
       // This assumes redisService.client is an ioredis client.
       return (redisService.client as any).call(...args);
@@ -32,18 +32,18 @@ export const generalRateLimiter = rateLimit({
   },
   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-  skip: (req, res) => {
+  skip: (req, _res) => {
     if (skipRateLimiting) {
       logger.warn(`Rate limiting skipped for ${req.ip} because Redis client is not available.`);
       return true;
     }
     return false;
   },
-  handler: (req, res, next, options) => {
+  handler: (req, _res, _next, options) => {
     logger.warn(
       `Rate limit exceeded for ${req.ip}: ${req.method} ${req.originalUrl}. Limit: ${options.max} requests per ${options.windowMs / 60000} minutes.`,
     );
-    res.status(options.statusCode).json(options.message);
+    _res.status(options.statusCode).json(options.message);
   },
 });
 

@@ -1,0 +1,9 @@
+
+> app@1.0.0 lint
+> eslint . --ext .ts
+
+
+/app/src/middleware/rateLimit.ts
+  19:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+✖ 1 problem (0 errors, 1 warning)

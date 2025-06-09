@@ -1,0 +1,47 @@
+
+> app@1.0.0 type-check
+> tsc --noEmit
+
+src/middleware/rateLimit.ts(16,5): error TS2578: Unused '@ts-expect-error' directive.
+src/routes/api.ts(10,23): error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type '(req: Request, res: Response, next: NextFunction) => Promise<Response<any, Record<string, any>> | undefined>' is not assignable to parameter of type 'Application<Record<string, any>>'.
+      Type '(req: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>, res: Response<any, Record<string, any>>, next: NextFunction) => Promise<...>' is missing the following properties from type 'Application<Record<string, any>>': init, defaultConfiguration, engine, set, and 63 more.
+src/routes/api.ts(12,23): error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type '(req: Request, res: Response, next: NextFunction) => Response<any, Record<string, any>> | Promise<void> | undefined' is not assignable to parameter of type 'Application<Record<string, any>>'.
+      Type '(req: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>, res: Response<any, Record<string, any>>, next: NextFunction) => Response<...> | ... 1 more ... | undefined' is missing the following properties from type 'Application<Record<string, any>>': init, defaultConfiguration, engine, set, and 63 more.
+src/routes/api.ts(29,7): error TS2353: Object literal may only specify known properties, and 'onProxyReq' does not exist in type 'Options<IncomingMessage, ServerResponse<IncomingMessage>>'.
+src/routes/api.ts(29,20): error TS7006: Parameter 'proxyReq' implicitly has an 'any' type.
+src/routes/api.ts(29,30): error TS7006: Parameter 'req' implicitly has an 'any' type.
+src/routes/api.ts(29,35): error TS7006: Parameter '_res' implicitly has an 'any' type.
+src/routes/api.ts(40,20): error TS7006: Parameter 'proxyRes' implicitly has an 'any' type.
+src/routes/api.ts(40,30): error TS7006: Parameter 'req' implicitly has an 'any' type.
+src/routes/api.ts(40,35): error TS7006: Parameter '_res' implicitly has an 'any' type.
+src/routes/api.ts(46,17): error TS7006: Parameter 'err' implicitly has an 'any' type.
+src/routes/api.ts(46,22): error TS7006: Parameter 'req' implicitly has an 'any' type.
+src/routes/api.ts(46,27): error TS7006: Parameter '_res' implicitly has an 'any' type.
+src/routes/auth.ts(14,23): error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type '(req: Request, res: Response, next: NextFunction) => Promise<Response<any, Record<string, any>> | undefined>' is not assignable to parameter of type 'RequestHandlerParams<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+      Type '(req: Request, res: Response, next: NextFunction) => Promise<Response<any, Record<string, any>> | undefined>' is not assignable to type 'RequestHandler<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+        Type 'Promise<Response<any, Record<string, any>> | undefined>' is not assignable to type 'void | Promise<void>'.
+          Type 'Promise<Response<any, Record<string, any>> | undefined>' is not assignable to type 'Promise<void>'.
+            Type 'Response<any, Record<string, any>> | undefined' is not assignable to type 'void'.
+              Type 'Response<any, Record<string, any>>' is not assignable to type 'void'.
+src/routes/auth.ts(14,39): error TS2559: Type 'ObjectSchema<any>' has no properties in common with type 'RequestSchemas'.
+src/services/authService.ts(7,16): error TS2769: No overload matches this call.
+  Overload 1 of 5, '(payload: string | object | Buffer<ArrayBufferLike>, secretOrPrivateKey: null, options?: (SignOptions & { algorithm: "none"; }) | undefined): string', gave the following error.
+    Argument of type 'string' is not assignable to parameter of type 'null'.
+  Overload 2 of 5, '(payload: string | object | Buffer<ArrayBufferLike>, secretOrPrivateKey: Buffer<ArrayBufferLike> | Secret | PrivateKeyInput | JsonWebKeyInput, options?: SignOptions | undefined): string', gave the following error.
+    Type 'string' is not assignable to type 'number | StringValue | undefined'.
+  Overload 3 of 5, '(payload: string | object | Buffer<ArrayBufferLike>, secretOrPrivateKey: Buffer<ArrayBufferLike> | Secret | PrivateKeyInput | JsonWebKeyInput, callback: SignCallback): void', gave the following error.
+    Object literal may only specify known properties, and 'expiresIn' does not exist in type 'SignCallback'.
+src/services/redisService.ts(2,42): error TS6059: File '/app/config/redis.config.ts' is not under 'rootDir' '/app/src'. 'rootDir' is expected to contain all source files.
+  The file is in the program because:
+    Matched by default include pattern '**/*'
+    Imported via '../../config/redis.config' from file '/app/src/services/redisService.ts'
+src/services/routingService.ts(1,44): error TS6059: File '/app/config/routes.config.ts' is not under 'rootDir' '/app/src'. 'rootDir' is expected to contain all source files.
+  The file is in the program because:
+    Matched by default include pattern '**/*'
+    Imported via '../../config/routes.config' from file '/app/src/services/routingService.ts'
